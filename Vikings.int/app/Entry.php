@@ -10,8 +10,18 @@ class Entry extends Model
     use SoftDeletes;
 
     protected $fillable = [
-    	'userId', 'periodId', 'key', 'ip'
+    	'user_id', 'period_id', 'key', 'ip'
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function user()
+    {
+    	return $this->belongsTo('App\User')->withTrashed();
+    }
+
+    public function period()
+    {
+    	return $this->belongsTo('App\Period')->withTrashed();
+    }
 }

@@ -24,3 +24,6 @@ Route::post("/user/restore/{id}", "UserController@restore");
 
 Route::resource('/period', 'PeriodController');
 Route::post("/period/restore/{id}", "PeriodController@restore");
+
+Route::resource('/entry', 'EntryController');
+Route::post("/entry/restore/{id}", "EntryController@restore");
