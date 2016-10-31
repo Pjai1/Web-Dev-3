@@ -20,8 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::resource('/user', 'UserController');
-Route::get('/user/trashed/{id}', 'UserController@showTrashed');
-// Route::get('/user', 'UserController@index');
-// Route::get('/user/{id}', 'UserController@show');
-// Route::post('/user/{user}', 'UserController@update');
 Route::post("/user/restore/{id}", "UserController@restore");
+
+Route::resource('/period', 'PeriodController');
+Route::post("/period/restore/{id}", "PeriodController@restore");

@@ -10,7 +10,7 @@ class Period extends Model
     use SoftDeletes;
 
     protected $fillable = [
-    	'startDate', 'endDate'
+    	'name', 'startDate', 'endDate'
     ];
 
     protected $dates = ['deleted_at'];
