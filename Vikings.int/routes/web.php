@@ -20,12 +20,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::resource('/user', 'UserController');
-Route::get('/user/admin', 'UserController@showAdmins');
+Route::get('/admins', 'UserController@showAdmins');
 Route::post('/user/restore/{id}', 'UserController@restore');
 
 Route::resource('/period', 'PeriodController');
 Route::post("/period/restore/{id}", "PeriodController@restore");
 
 Route::resource('/entry', 'EntryController');
-Route::get("/entry/winner", "EntryController@showWinners");
+Route::get("/winners", "EntryController@showWinners");
 Route::post("/entry/restore/{id}", "EntryController@restore");
