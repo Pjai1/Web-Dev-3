@@ -29,3 +29,5 @@ Route::post("/period/restore/{id}", "PeriodController@restore");
 Route::resource('/entry', 'EntryController');
 Route::get("/winners", "EntryController@showWinners");
 Route::post("/entry/restore/{id}", "EntryController@restore");
+
+Route::post('/send', 'EmailController@send');
