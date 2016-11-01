@@ -24,6 +24,10 @@ class UserController extends Controller
     	return $this->user->find($id);
     }
 
+    public function showAdmins() {
+        return $this->user->getAllAdmins();
+    }
+
     public function update(Request $request, $id) {
     	$user = User::withTrashed()->where('id', $id)->first();
 
@@ -44,5 +48,6 @@ class UserController extends Controller
     public function restore(Request $request, $id) {
     	$user = User::withTrashed()->where('id', $id)->restore();
 
+        return $user;
     }
 }

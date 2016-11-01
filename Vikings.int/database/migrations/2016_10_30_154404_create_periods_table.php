@@ -18,7 +18,7 @@ class CreatePeriodsTable extends Migration
             $table->string('name');
             $table->dateTime('startDate');
             $table->dateTime('endDate');
-            $table->string('winningKey')->unique();
+            $table->string('winningKey');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -12,11 +12,19 @@ class UserRepository {
 	    $this->user = $user;
 	}
 
+	public function getAll() {
+		return $this->user->get();
+	}
+
 	public function getAllWithTrashed() {
 		return $this->user->withTrashed()->get();
 	}
 
 	public function find($id) {
 		return $this->user->find($id);
+	}
+
+	public function getAllAdmins() {
+		return $this->user->where('isAdmin', 1)->get();
 	}
 }

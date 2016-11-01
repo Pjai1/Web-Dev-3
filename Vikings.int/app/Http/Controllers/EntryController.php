@@ -19,7 +19,11 @@ class EntryController extends Controller
     }
 
     public function show($id) {
-    	return $this->entry->find($id);
+    	return $this->entry->getPeriodEntries($id);
+    }
+
+    public function showWinners() {
+        return $this->entry->getWinners();
     }
 
     public function store(Request $request) {
