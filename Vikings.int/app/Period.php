@@ -10,8 +10,12 @@ class Period extends Model
     use SoftDeletes;
 
     protected $fillable = [
-    	'name', 'startDate', 'endDate'
+    	'name', 'startDate', 'endDate', 'winningKey'
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function entries() {
+    	return $this->hasMany('App\Entry');
+    }
 }
