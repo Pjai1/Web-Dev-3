@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index');
 
 Route::resource('/user', 'UserController');
 Route::get('/admins', 'UserController@showAdmins');
+Route::get('/exportusers', 'UserController@exportUsers');
 Route::post('/user/restore/{id}', 'UserController@restore');
 
 Route::resource('/period', 'PeriodController');
