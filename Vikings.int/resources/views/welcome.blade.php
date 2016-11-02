@@ -69,7 +69,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">Go To The Homepage</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>
@@ -79,12 +79,13 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Mobile Vikings
+                    <a href="{{ url('/home') }}" style="text-decoration: none; color:black">Mobile Vikings</a>
                 </div>
 
                 <div class="links">
-                    <a href="{{ url('/home') }}">Join our contest today!</a>
+                    <a href="{{ url('/contest') }}">Join our contest today!</a>
                 </div>
+                <br />
             </div>
         </div>
     </body>

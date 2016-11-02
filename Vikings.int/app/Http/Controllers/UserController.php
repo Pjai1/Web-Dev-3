@@ -15,7 +15,7 @@ class UserController extends Controller
     protected $users;
 
     public function __construct(UserRepository $user, UserRepository $users) {
-        $this->middleware('admin');
+        // $this->middleware('admin');
     	$this->user = $user;
         $this->users = $users->getAllWithTrashed();
     }
@@ -43,10 +43,12 @@ class UserController extends Controller
     	return $user;
     }
 
-    public function destroy(Request $request, $id) {
-    	$user = $this->user->find($id);
+    public function destroy($id) {
+    	$user = User::withTrashed()->where('id', $id)->first();
+        var_dump($user);
+    	$user->forceDelete();
 
-    	$user->delete();
+        return redirect("/dashboard")->with("success", "Successfully deleted $user->name");
     }
 
     public function restore(Request $request, $id) {

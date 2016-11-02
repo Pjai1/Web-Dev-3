@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 
-
-class HomeController extends Controller
+class DashboardController extends Controller
 {
     protected $users;
     /**
@@ -16,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct(UserRepository $users)
     {
-        $this->middleware('auth');
+        $this->middleware('admin');
         $this->users = $users->getAllWithTrashed();
     }
 
@@ -27,7 +26,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        return view('home', [
+        return view('dashboard', [
                 'users' => $this->users
             ]);
     }

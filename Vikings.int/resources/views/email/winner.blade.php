@@ -1,0 +1,1 @@
+Congratulations, you have won our monthly prize {{$name}}!

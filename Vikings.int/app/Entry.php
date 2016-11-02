@@ -10,7 +10,7 @@ class Entry extends Model
     use SoftDeletes;
 
     protected $fillable = [
-    	'user_id', 'period_id', 'key', 'isWinningEntry'
+    	'user_id', 'period_id', 'key', 'isWinningEntry', 'ip'
     ];
 
     protected $dates = ['deleted_at'];

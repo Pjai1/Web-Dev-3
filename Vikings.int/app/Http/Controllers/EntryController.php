@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Repositories\EntryRepository;
 use App\Entry;
 use Excel;
+use DB;
+use Illuminate\Support\Facades\Mail;
 
 class EntryController extends Controller
 {
@@ -29,20 +31,66 @@ class EntryController extends Controller
     }
 
     public function store(Request $request) {
+        $keys = $this->makeRandomKeys();
+        $rndKey = array_rand($keys);
+
     	$userId = $request->get('user_id');
     	$periodId = $request->get('period_id');
-    	$key = $request->get('key');
+    	$key = $rndKey;
     	$ip = $request->ip();
 
+        $winningKey = DB::table('periods')->select('winningKey')->where('id', $periodId)->pluck('winningKey');
+        $winningKeyValue = $winningKey[0];
+
+        if($winningKeyValue == $key) {
+            $isWinningEntry = true;
+            $this->emailWinner($request);
+        }
+        else {
+            $isWinningEntry = false;
+            $this->emailContestant($request);
+        }
+        
     	$entry = new Entry;
     	$entry->user_id = $userId;
     	$entry->period_id = $periodId;
     	$entry->key = $key;
     	$entry->ip = $ip;
+        $entry->isWinningEntry = $isWinningEntry;
 
     	$entry->save();
 
     	return $entry;    	
+    }
+
+    public function emailWinner(Request $request) {
+        $userId = $request->get('user_id');
+        $winningUser = DB::table('users')->select('email', 'name')->where('id', $userId)->get();
+        $emailUser = $winningUser[0]->email;
+        $nameUser = $winningUser[0]->name;
+        $data = ['name' => $nameUser, 'email' => $emailUser, 'userId' => $userId];
+
+        Mail::send('email.winner', $data, function($message) use ($data) {
+            $emailUser = $data['email'];
+            $nameUser = $data['name'];
+
+            $message->to($emailUser, $nameUser)->subject('Congratulations, you have won!');
+        });
+    }
+
+    public function emailContestant(Request $request) {
+        $userId = $request->get('user_id');
+        $winningUser = DB::table('users')->select('email', 'name')->where('id', $userId)->get();
+        $emailUser = $winningUser[0]->email;
+        $nameUser = $winningUser[0]->name;
+        $data = ['name' => $nameUser, 'email' => $emailUser, 'userId' => $userId];
+
+        Mail::send('email.entry', $data, function($message) use ($data) {
+            $emailUser = $data['email'];
+            $nameUser = $data['name'];
+
+            $message->to($emailUser, $nameUser)->subject('Too bad, you lost!');
+        });
     }
 
     public function destroy(Request $request, $id) {
@@ -65,5 +113,15 @@ class EntryController extends Controller
                     $sheet->loadView("Excel.entry", array("entries" => $this->entries));
                 });
             })->export("xls");
+    }
+
+    public function makeRandomKeys() {
+        $keys = [];
+
+        for ($i=1; $i <= 10; $i++) { 
+            array_push($keys, $i);
+        }
+
+        return $keys;
     }
 }

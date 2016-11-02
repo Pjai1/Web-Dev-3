@@ -12,11 +12,13 @@ class PeriodController extends Controller
     protected $period;
 
     public function __construct(PeriodRepository $period, PeriodRepository $periods) {
-        $this->middleware('admin');
+        // $this->middleware('admin');
 
     	$this->period = $period;
         $this->periods = $periods->getAllWithTrashed();
     }
+
+
 
     public function index() {
     	return $this->period->getAllWithTrashed();
@@ -30,11 +32,13 @@ class PeriodController extends Controller
     	$name = $request->get('name');
     	$startDate = $request->get('startDate');
     	$endDate = $request->get('endDate');
+        $winningKey = $this->makeRandomWinningKey();
 
     	$period = new Period;
     	$period->name = $name;
     	$period->startDate = $startDate;
     	$period->endDate = $endDate;
+        $period->winningKey = $winningKey;
 
     	$period->save();
 
@@ -50,6 +54,7 @@ class PeriodController extends Controller
     public function restore(Request $request, $id) {
     	$period = Period::withTrashed()->where('id', $id)->restore();
 
+        return $period;
     }
 
     public function exportPeriods() {
@@ -61,5 +66,16 @@ class PeriodController extends Controller
                     $sheet->loadView("Excel.period", array("periods" => $this->periods));
                 });
             })->export("xls");
+    }
+
+   public function makeRandomWinningKey() {
+        $keys = [];
+
+        for ($i=1; $i <= 10; $i++) { 
+            array_push($keys, $i);
+        }
+        $rndKey = array_rand($keys);
+
+        return $rndKey;
     }
 }

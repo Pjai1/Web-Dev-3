@@ -19,10 +19,21 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/contest', function() {
+	return view('contest');
+});
+
+Route::get('/dashboard', 'DashboardController@index');
+
+Route::get('/contact', function() {
+	return view('contact');
+});
+
 Route::resource('/user', 'UserController');
 Route::get('/admins', 'UserController@showAdmins');
 Route::get('/exportusers', 'UserController@exportUsers');
 Route::post('/user/restore/{id}', 'UserController@restore');
+Route::delete('/user/{id}', 'UserController@destroy');
 
 Route::resource('/period', 'PeriodController');
 Route::get('/exportperiods', 'PeriodController@exportPeriods');
@@ -37,4 +48,6 @@ Route::get('/send', 'EmailController@send');
 Route::get('/error', function() {
 	return view('test');
 });
+
+Route::get('/test', 'EntryController@makeRandomKeys');
 
