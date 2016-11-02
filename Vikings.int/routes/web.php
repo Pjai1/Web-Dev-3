@@ -31,4 +31,8 @@ Route::resource('/entry', 'EntryController');
 Route::get("/winners", "EntryController@showWinners");
 Route::post("/entry/restore/{id}", "EntryController@restore");
 
-Route::post('/send', 'EmailController@send');
+Route::get('/send', 'EmailController@send');
+Route::get('/error', function() {
+	return view('test');
+});
+

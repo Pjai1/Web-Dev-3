@@ -1,0 +1,10 @@
+To: Joske <jonas.vaneeckhout@student.kdg.be>
+Subject: Send Mail from Laravel with Basics Email
+Message-ID: <577cdc48f033b68c866d1097b33e53c9@localhost>
+Date: Wed, 02 Nov 2016 11:45:51 +0000
+From: Jos <ulti40@hotmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+

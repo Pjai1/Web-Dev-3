@@ -7,19 +7,15 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailController extends Controller
 {
-	public function send(Request $request) {
+	public function send() {
 
-        $title = $request->input('title');
-        $content = $request->input('content');
+        $data = ['name' => 'Jos'];
 
-        Mail::send('email.send', ['title' => $title, 'content' => $content], function ($message)
-        {
-
-        	// $message->from('ulti40@hotmail.com', 'Jos');
-            $message->to('ulti40@hotmail.com');
-
+        Mail::send('email.send', $data, function($message) {
+            $message->to('jonas.vaneeckhout@student.kdg.be','Joske')->subject('Send Mail from Laravel with Basics Email');
+            // $message->from('ulti40@gmail.com','Jos');
         });
 
-        return response()->json(['message' => 'Request completed']);
+        return response()->json(['message' => 'Mail sent to Jos']);
 	}
 }

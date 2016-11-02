@@ -1,0 +1,16 @@
+To: Joske <ulti40@hotmail.com>
+Subject: Send Mail from Laravel with Basics Email
+Message-ID: <d93b5334f8a9936ab2902ddc3537407f@localhost>
+Date: Wed, 02 Nov 2016 11:06:33 +0000
+From: Jos <ulti40@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head></head>
+<body style=3D"background: black; color: white">
+<h1>test</h1>
+<p>test</p>
+</body>
+</html>
