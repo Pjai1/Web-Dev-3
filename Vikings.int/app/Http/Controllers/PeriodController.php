@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\PeriodRepository;
 use App\Period;
+use Excel;
 
 class PeriodController extends Controller
 {
     protected $period;
 
-    public function __construct(PeriodRepository $period) {
+    public function __construct(PeriodRepository $period, PeriodRepository $periods) {
+        $this->middleware('admin');
+
     	$this->period = $period;
+        $this->periods = $periods->getAllWithTrashed();
     }
 
     public function index() {
@@ -46,5 +50,16 @@ class PeriodController extends Controller
     public function restore(Request $request, $id) {
     	$period = Period::withTrashed()->where('id', $id)->restore();
 
+    }
+
+    public function exportPeriods() {
+        $currentTime = date('Y-m-d H:i:s');
+
+        Excel::create("Periods_$currentTime", function($excel) {
+                $excel->sheet("Periods", function($sheet)
+                {
+                    $sheet->loadView("Excel.period", array("periods" => $this->periods));
+                });
+            })->export("xls");
     }
 }

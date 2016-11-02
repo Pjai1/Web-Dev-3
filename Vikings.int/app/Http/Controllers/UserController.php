@@ -15,6 +15,7 @@ class UserController extends Controller
     protected $users;
 
     public function __construct(UserRepository $user, UserRepository $users) {
+        $this->middleware('admin');
     	$this->user = $user;
         $this->users = $users->getAllWithTrashed();
     }
@@ -57,8 +58,7 @@ class UserController extends Controller
     public function exportUsers() {
         $currentTime = date('Y-m-d H:i:s');
 
-        Excel::create("$currentTime - Users", function($excel)
-            {
+        Excel::create("Users_$currentTime", function($excel) {
                 $excel->sheet("Users", function($sheet)
                 {
                     $sheet->loadView("Excel.user", array("users" => $this->users));

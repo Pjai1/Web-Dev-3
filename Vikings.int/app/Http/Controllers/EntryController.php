@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\EntryRepository;
 use App\Entry;
+use Excel;
 
 class EntryController extends Controller
 {
     protected $entry;
 
-    public function __construct(EntryRepository $entry) {
+    public function __construct(EntryRepository $entry, EntryRepository $entries) {
     	$this->entry = $entry;
+        $this->entries = $entries->getAllWithTrashed(); 
     }
 
     public function index() {
@@ -52,5 +54,16 @@ class EntryController extends Controller
     public function restore(Request $request, $id) {
     	$entry = Entry::withTrashed()->where('id', $id)->restore();
 
+    }
+
+    public function exportEntries() {
+        $currentTime = date('Y-m-d H:i:s');
+
+        Excel::create("Entries_$currentTime", function($excel) {
+                $excel->sheet("Entries", function($sheet)
+                {
+                    $sheet->loadView("Excel.entry", array("entries" => $this->entries));
+                });
+            })->export("xls");
     }
 }

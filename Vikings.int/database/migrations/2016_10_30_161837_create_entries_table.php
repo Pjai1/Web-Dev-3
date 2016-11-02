@@ -20,7 +20,6 @@ class CreateEntriesTable extends Migration
             $table->integer('period_id')->unsigned()->nullable();
             $table->foreign('period_id')->references('id')->on('periods')->onDelete('cascade');
             $table->string('key');
-            $table->string('ip');
             $table->boolean('isWinningEntry')->default(0);
             $table->softDeletes();
             $table->timestamps();

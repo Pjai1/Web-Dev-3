@@ -25,9 +25,11 @@ Route::get('/exportusers', 'UserController@exportUsers');
 Route::post('/user/restore/{id}', 'UserController@restore');
 
 Route::resource('/period', 'PeriodController');
+Route::get('/exportperiods', 'PeriodController@exportPeriods');
 Route::post("/period/restore/{id}", "PeriodController@restore");
 
 Route::resource('/entry', 'EntryController');
+Route::get('/exportentries', 'EntryController@exportEntries');
 Route::get("/winners", "EntryController@showWinners");
 Route::post("/entry/restore/{id}", "EntryController@restore");
 
