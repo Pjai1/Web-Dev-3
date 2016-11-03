@@ -46,9 +46,9 @@ class UserController extends Controller
     public function destroy($id) {
     	$user = User::withTrashed()->where('id', $id)->first();
         var_dump($user);
-    	$user->forceDelete();
+    	$user->delete();
 
-        return redirect("/dashboard")->with("success", "Successfully deleted $user->name");
+        // return redirect("/dashboard")->with("success", "Successfully deleted user");
     }
 
     public function restore(Request $request, $id) {
