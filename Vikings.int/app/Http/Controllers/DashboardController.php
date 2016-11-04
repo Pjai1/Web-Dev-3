@@ -15,7 +15,7 @@ class DashboardController extends Controller
      */
     public function __construct(UserRepository $users)
     {
-        $this->middleware('admin');
+        // $this->middleware('admin');
         $this->users = $users->getAllWithTrashed();
     }
 

@@ -43,18 +43,22 @@ class UserController extends Controller
     	return $user;
     }
 
-    public function destroy($id) {
-    	$user = User::withTrashed()->where('id', $id)->first();
-        var_dump($user);
+    public function destroy(Request $request, User $user) {
+    	// $user = User::withTrashed()->where('id', $user->id)->first();
+        $this->authorize('destroy', $user);
     	$user->delete();
 
-        // return redirect("/dashboard")->with("success", "Successfully deleted user");
+        return redirect('/dashboard');
     }
 
     public function restore(Request $request, $id) {
-    	$user = User::withTrashed()->where('id', $id)->restore();
+    	$user = User::withTrashed()->where('id', $id);
 
-        return $user;
+        $user->restore();
+
+        // return view('dashboard', [
+        //         'message' => 'success'
+        //     ]);
     }
 
     public function exportUsers() {

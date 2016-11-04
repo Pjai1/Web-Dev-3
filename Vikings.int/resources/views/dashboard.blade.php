@@ -27,11 +27,20 @@
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->isAdmin}}</td>
                                 <td>
-                                    <form action="{{ url('user/'.$user->id)}}" method="POST">
-<!--                                     {!! csrf_field() !!}
-                                    {!! method_field('DELETE') !!} -->
-                                        <button type="button" class="btn btn-primary">Delete</button>
+                                @if ($user->deleted_at == NULL)
+                                    <form action="{{ url('/user/'.$user->id) }}" method="POST">
+                                    {!! csrf_field() !!}
+                                    {!! method_field('DELETE') !!}
+                                        <button type="submit" class="btn btn-primary">Delete</button>
                                     </form>
+                                @else
+                                    <form action="{{ url('user/restore/'.$user->id) }}" method="POST">
+                                        {!! csrf_field() !!}
+
+                                        <button type="submit" class="btn btn-primary">Restore</button>
+                                    </form>
+
+                                @endif
                                 </td>
                             </tr>
                             @endforeach

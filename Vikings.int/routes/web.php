@@ -30,10 +30,10 @@ Route::get('/contact', function() {
 });
 
 Route::resource('/user', 'UserController');
+Route::post('/user/{user}', 'UserController@destroy');
 Route::get('/admins', 'UserController@showAdmins');
 Route::get('/exportusers', 'UserController@exportUsers');
 Route::post('/user/restore/{id}', 'UserController@restore');
-Route::delete('/user/{id}', 'UserController@destroy');
 
 Route::resource('/period', 'PeriodController');
 Route::get('/exportperiods', 'PeriodController@exportPeriods');
