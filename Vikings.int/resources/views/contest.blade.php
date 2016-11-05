@@ -15,10 +15,8 @@
                         @if($entry->user_id == Auth::user()->id && $currentPeriod->id == $entry->period_id)
                             <p>Thanks for participating {{Auth::user()->name}}, please check your email!</p>
                             @break      
-                        @endif
-                    @endforeach     
-
-                    <form action="{{ url('entry/') }}" method="POST">
+                        @else
+                                                <form action="{{ url('entry/') }}" method="POST">
                         {!! csrf_field() !!}
 
                         <div class="form-group">
@@ -26,7 +24,12 @@
                                 <input type="hidden" name="period_id" id="period_id" class="form-control" value="{{$currentPeriod->id}}">
                         </div>
                             <button type="submit" class="btn btn-primary">Enter Contest</button>
-                    </form>  
+                    </form> 
+                    @break
+                    @endif
+                    @endforeach     
+
+
             </div>
         </div>
     </div>
