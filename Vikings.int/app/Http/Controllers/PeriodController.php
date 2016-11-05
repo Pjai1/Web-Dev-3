@@ -29,6 +29,11 @@ class PeriodController extends Controller
     }
 
     public function store(Request $request) {
+        $this->validate($request, [ 'name' => 'required|unique:periods',
+                                        'startDate' => 'required|date_format:Y-m-d H:i:s',
+                                        'endDate' => 'required|date_format:Y-m-d H:i:s|after:startDate'
+                                        ]);
+
     	$name = $request->get('name');
     	$startDate = $request->get('startDate');
     	$endDate = $request->get('endDate');
@@ -42,19 +47,21 @@ class PeriodController extends Controller
 
     	$period->save();
 
-    	return $period;
+    	return redirect('/dashboard')->with('status', "$period->name successfully created!");
     }
 
-    public function destroy(Request $request, $id) {
-    	$period = $this->period->find($id);
-
+    public function destroy(Request $request, Period $period) {
     	$period->delete();
+
+        return redirect('/dashboard')->with('status', "$period->name successfully deleted!");
     }
 
     public function restore(Request $request, $id) {
-    	$period = Period::withTrashed()->where('id', $id)->restore();
+    	$period = Period::withTrashed()->where('id', $id)->first();
 
-        return $period;
+        $period->restore();
+
+        return redirect('/dashboard')->with('status', "$period->name successfully restored!");
     }
 
     public function exportPeriods() {

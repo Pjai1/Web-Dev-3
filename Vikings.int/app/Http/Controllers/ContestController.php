@@ -5,24 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Repositories\PeriodRepository;
-use App\Repositories\EntryRepository;
 
-class DashboardController extends Controller
+class ContestController extends Controller
 {
     protected $users;
     protected $periods;
-    protected $entries;
+    protected $currentPeriod;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(UserRepository $users, PeriodRepository $periods, EntryRepository $entries)
+    public function __construct(UserRepository $users, PeriodRepository $periods)
     {
-        // $this->middleware('admin');
+        $this->middleware('auth');
         $this->users = $users->getAllWithTrashed();
         $this->periods = $periods->getAllWithTrashed();
-        $this->entries = $entries->getAllWithTrashed();
+        $this->currentPeriod = $periods->getCurrentPeriod($this->periods);
     }
 
     /**
@@ -32,10 +31,10 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        return view('dashboard', [
+        return view('contest', [
                 'users' => $this->users,
                 'periods' => $this->periods,
-                'entries' => $this->entries
+                'currentPeriod' => $this->currentPeriod
             ]);
     }
 }

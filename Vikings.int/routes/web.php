@@ -19,9 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/contest', function() {
-	return view('contest');
-});
+Route::get('/contest', 'ContestController@index');
 
 Route::get('/dashboard', 'DashboardController@index');
 
@@ -31,6 +29,7 @@ Route::get('/contact', function() {
 
 Route::resource('/user', 'UserController');
 Route::post('/user/{user}', 'UserController@destroy');
+Route::post('/user/update/{user}', 'UserController@update');
 Route::get('/admins', 'UserController@showAdmins');
 Route::get('/exportusers', 'UserController@exportUsers');
 Route::post('/user/restore/{id}', 'UserController@restore');
@@ -41,7 +40,7 @@ Route::post("/period/restore/{id}", "PeriodController@restore");
 
 Route::resource('/entry', 'EntryController');
 Route::get('/exportentries', 'EntryController@exportEntries');
-Route::get("/winners", "EntryController@showWinners");
+Route::get('/winners', "EntryController@showWinners");
 Route::post("/entry/restore/{id}", "EntryController@restore");
 
 Route::get('/send', 'EmailController@send');

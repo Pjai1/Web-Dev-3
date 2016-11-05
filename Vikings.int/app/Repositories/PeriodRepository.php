@@ -25,7 +25,7 @@ class PeriodRepository {
 
 	public function getCurrentPeriod($periods) {
 		$currentTime = date('Y-m-d H:i:s');
-		$period->name = "Inactive period";
+		$period = new Period;
 
 		foreach($periods as $p) {
 			if($p->startDate < $currentTime && $p->endDate > $currentTime) {

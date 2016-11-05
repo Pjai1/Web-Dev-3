@@ -11,6 +11,7 @@
                     <th>User Id</th>
                     <th>Period Id</th>
                     <th>Key</th>
+                    <th>IP</th>
                     <th>Lost0_Won1</th>
                     <th>Deleted_At</th>
                     <th>Created_At</th>
@@ -24,6 +25,7 @@
                         <td>{{$entry->user_id}}</td>
                         <td>{{$entry->period_id}}</td>
                         <td>{{$entry->key}}</td>
+                        <td>{{$entry->ip}}</td>
                         <td>{{$entry->isWinningEntry}}</td>
                         <td>{{$entry->deleted_at}}</td>
                         <td>{{$entry->created_at}}</td>

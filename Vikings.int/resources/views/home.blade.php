@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@include('common.errors')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -8,27 +9,21 @@
                 <div class="panel-heading">Home</div>
 
                 <div class="panel-body">
-                    <p>Welcome to the Mobile Vikings Contest Website!</p>
-                    <div>  
-                    <br />
-                    <p>Our winners are</p>
-                    <table class="table table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>                       
-                            @foreach ($users as $user)
-                            <tr>
-                                <td>{{$user->name}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>  
-                    </table>  
+                    <h2>Welcome to the Mobile Vikings Contest Website!</h2>
+                    <div>
+                    @if($currentPeriod)  
+                    <h3>Our Winners for {{$currentPeriod->name}}</h3> 
+                        @foreach ($entryWinners as $winner)
+                            @if ($currentPeriod->id == $winner->period_id && $winner->isWinningEntry == 1)
+                                <ul>
+                                    <li>{{$winner->user->name}}</li>
+                                </ul>
+                            @endif
+                        @endforeach
                     </div>
                     <br />
                     <p>Since you are logged in you can <a href="{{ url('/contest') }}">opt-in</a> our contest!</p>
+                    @endif
                 </div>
             </div>
         </div>

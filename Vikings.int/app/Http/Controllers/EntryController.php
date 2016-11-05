@@ -8,6 +8,7 @@ use App\Entry;
 use Excel;
 use DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class EntryController extends Controller
 {
@@ -34,7 +35,7 @@ class EntryController extends Controller
         $keys = $this->makeRandomKeys();
         $rndKey = array_rand($keys);
 
-    	$userId = $request->get('user_id');
+        $userId = Auth::id();
     	$periodId = $request->get('period_id');
     	$key = $rndKey;
     	$ip = $request->ip();
@@ -57,14 +58,15 @@ class EntryController extends Controller
     	$entry->key = $key;
     	$entry->ip = $ip;
         $entry->isWinningEntry = $isWinningEntry;
+        $userName = $entry->user->name;
 
     	$entry->save();
 
-    	return $entry;    	
+    	return redirect('/contest')->with('status', "Thanks for participating $userName, please check your email!");  	
     }
 
     public function emailWinner(Request $request) {
-        $userId = $request->get('user_id');
+        $userId = Auth::id();
         $winningUser = DB::table('users')->select('email', 'name')->where('id', $userId)->get();
         $emailUser = $winningUser[0]->email;
         $nameUser = $winningUser[0]->name;
@@ -79,7 +81,7 @@ class EntryController extends Controller
     }
 
     public function emailContestant(Request $request) {
-        $userId = $request->get('user_id');
+        $userId = Auth::id();
         $winningUser = DB::table('users')->select('email', 'name')->where('id', $userId)->get();
         $emailUser = $winningUser[0]->email;
         $nameUser = $winningUser[0]->name;
@@ -93,15 +95,21 @@ class EntryController extends Controller
         });
     }
 
-    public function destroy(Request $request, $id) {
-    	$entry = $this->entry->find($id);
+    public function destroy(Request $request, Entry $entry) {
+    	$userName = $entry->user->name;
+        $periodName = $entry->period->name;
+        $entry->delete();
 
-    	$entry->delete();
+        return redirect('/dashboard')->with('status', "Entry of $userName from $periodName successfully deleted!");
     }
 
     public function restore(Request $request, $id) {
-    	$entry = Entry::withTrashed()->where('id', $id)->restore();
+    	$entry = Entry::withTrashed()->where('id', $id)->first();
+        $userName = $entry->user->name;
+        $periodName = $entry->period->name;
+        $entry->restore();
 
+        return redirect('/dashboard')->with('status', "Entry of $userName from $periodName successfully restored!");
     }
 
     public function exportEntries() {

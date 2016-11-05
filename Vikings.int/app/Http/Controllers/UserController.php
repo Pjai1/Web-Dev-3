@@ -32,15 +32,13 @@ class UserController extends Controller
         return $this->user->getAllAdmins();
     }
 
-    public function update(Request $request, $id) {
-    	$user = User::withTrashed()->where('id', $id)->first();
+    public function update(Request $request, User $user) {
 
-    	$isAdmin = $request->get('isAdmin');
-    	$user->isAdmin = $isAdmin;
+    	$user->isAdmin = !$user->isAdmin;
 
     	$user->save();
 
-    	return $user;
+    	return redirect('/dashboard')->with('status', "$user->name successfully updated!");
     }
 
     public function destroy(Request $request, User $user) {
@@ -48,17 +46,15 @@ class UserController extends Controller
         $this->authorize('destroy', $user);
     	$user->delete();
 
-        return redirect('/dashboard');
+        return redirect('/dashboard')->with('status', "$user->name successfully deleted!");
     }
 
     public function restore(Request $request, $id) {
-    	$user = User::withTrashed()->where('id', $id);
+    	$user = User::withTrashed()->where('id', $id)->first();
 
         $user->restore();
 
-        // return view('dashboard', [
-        //         'message' => 'success'
-        //     ]);
+        return redirect('/dashboard')->with('status', "$user->name successfully restored!");
     }
 
     public function exportUsers() {
