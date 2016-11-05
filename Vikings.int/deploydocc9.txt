@@ -1,0 +1,44 @@
+C9 Deployment Document
+
+Eerst moeten we de juist PHP-versie op de server installeren, met name 5.6
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+sudo apt-get install libapache2-mod-php5.6
+sudo a2dismod php5
+sudo a2enmod php5.6
+sudo add-apt-repository ppa:ondrej/php5-compat
+sudo apt-get update
+sudo apt-get dist-upgrade
+
+We moeten NPM en Node installeren om frameworks/libraries te downloaden
+sudo npm install -g n
+sudo n latest
+sudo npm install -g npm
+
+We clonen het project van github in de server
+https://github.com/Pjai1/Web-Dev-3.git
+
+We moeten de root directory van apache veranderen voor onze server
+sudo nano /etc/apache2/sites-enabled/001-cloud9.conf
+
+We moeten een public folder toevoegen aan de workspace om files te sharen bijvoorbeeld
+DocumentRoot /home/ubuntu/workspace/public
+
+We initiëren onze cronjobs, bij dit project is dit dagelijks een e-mail sturen naar de administrator over nieuwe entries
+crontab -e
+* * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+
+We maken de database op C9 toegankelijk 
+mysql-ctl cli
+use c9;
+exit;
+phpmyadmin-ctl install
+
+We installeren composer, laravel en migraten/seeden onze database
+composer install
+npm install
+gulp all
+php artisan migrate --seed
+
+We linken onze storage folder met de public folder om bestanden uit te wisselen zoals excel of afbeeldingen
+php artisan storage:link

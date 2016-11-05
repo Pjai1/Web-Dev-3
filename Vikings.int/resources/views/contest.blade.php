@@ -11,12 +11,10 @@
                     <p>You can join the contest by clicking on the button below.<p>
                     <br />
 
-                    @foreach($entries as $entry)
-                        @if($entry->user_id == Auth::user()->id && $currentPeriod->id == $entry->period_id)
-                            <p>Thanks for participating {{Auth::user()->name}}, please check your email!</p>
-                            @break      
-                        @else
-                                                <form action="{{ url('entry/') }}" method="POST">
+                   @if (session('status'))
+                        {{ session('status') }}
+                     @else
+                        <form action="{{ url('entry/') }}" method="POST">
                         {!! csrf_field() !!}
 
                         <div class="form-group">
@@ -25,10 +23,7 @@
                         </div>
                             <button type="submit" class="btn btn-primary">Enter Contest</button>
                     </form> 
-                    @break
                     @endif
-                    @endforeach     
-
 
             </div>
         </div>
