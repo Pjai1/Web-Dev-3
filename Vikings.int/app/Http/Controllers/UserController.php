@@ -15,7 +15,7 @@ class UserController extends Controller
     protected $users;
 
     public function __construct(UserRepository $user, UserRepository $users) {
-        // $this->middleware('admin');
+        $this->middleware('admin');
     	$this->user = $user;
         $this->users = $users->getAllWithTrashed();
     }

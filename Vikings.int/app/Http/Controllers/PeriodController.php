@@ -12,8 +12,7 @@ class PeriodController extends Controller
     protected $period;
 
     public function __construct(PeriodRepository $period, PeriodRepository $periods) {
-        // $this->middleware('admin');
-
+        $this->middleware('admin');
     	$this->period = $period;
         $this->periods = $periods->getAllWithTrashed();
     }

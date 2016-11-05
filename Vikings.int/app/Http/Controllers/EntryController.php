@@ -20,7 +20,8 @@ class EntryController extends Controller
     }
 
     public function index() {
-    	return $this->entry->getAllWithTrashed();
+    	// return $this->entry->getAllWithTrashed();
+        return $this->entry->getTodaysEntries();
     }
 
     public function show($id) {

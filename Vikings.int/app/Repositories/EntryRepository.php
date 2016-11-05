@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Entry;
+use Carbon\Carbon; 
 
 class EntryRepository {
 
@@ -27,12 +28,16 @@ class EntryRepository {
 		return $this->entry->where('isWinningEntry', 1)->get();
 	}
 
-	public function getPeriodEntries($id) {
-		return $this->entry->withTrashed()->where('period_id', $id)->with('user', 'period')->get();
+	public function getPeriodEntries() {
+		return $this->entry->period();
 	}
 
 	public function getUserEntries($id) {
 		return $this->entry->withTrashed()->where('user_id', $id)->with('period')->get();
+	}
+
+	public function getTodaysEntries() {
+		return $this->entry->where('created_at', '>=', Carbon::now()->startOfDay())->get();
 	}
 
 }

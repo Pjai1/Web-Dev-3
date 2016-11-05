@@ -1,0 +1,1 @@
+This email contains today's entries.
