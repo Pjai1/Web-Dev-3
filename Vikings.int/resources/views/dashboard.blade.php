@@ -32,7 +32,7 @@
                                 <td>{{$user->email}}</td>
                                 <td>
                                 @if($user->isAdmin)
-                                    <form action="{{ url('user/'.$user->id) }}" method="POST">
+                                    <form action="{{ url('user/update/'.$user->id) }}" method="POST">
                                         {!! csrf_field() !!}
 
                                         <button type="submit" class="btn btn-primary" @if ($user->deleted_at != NULL) disabled @endif>Make User</button>
@@ -64,7 +64,7 @@
                             @endforeach
                         </tbody>  
                     </table> 
-                        <form action="{{ url('/exportusers') }}" method="GET">
+                        <form action="{{ url('/exportusers/') }}" method="GET">
                             <button type="submit" class="btn btn-primary">Get User Excel</button>
                         </form>
 
