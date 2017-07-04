@@ -10,10 +10,10 @@ use App\Repositories\PeriodRepository;
 
 class HomeController extends Controller
 {
-    protected $users;
-    protected $entryWinners;
-    protected $periods;
-    protected $currentPeriod;
+    private $users;
+    private $entryWinners;
+    private $periods;
+    private $currentPeriod;
     /**
      * Create a new controller instance.
      *
@@ -22,10 +22,9 @@ class HomeController extends Controller
     public function __construct(UserRepository $users, EntryRepository $entryWinners, PeriodRepository $periods)
     {
         $this->middleware('auth');
-        $this->users = $users->getAllWithTrashed();
-        $this->entryWinners = $entryWinners->getAllWithTrashed();
-        $this->periods = $periods->getAllWithTrashed();
-        $this->currentPeriod = $periods->getCurrentPeriod($this->periods);
+        $this->users = $users;
+        $this->entryWinners = $entryWinners;
+        $this->periods = $periods;
     }
 
     /**
@@ -35,11 +34,16 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $users = $this->users->getAllWithTrashed();
+        $entryWinners = $this->entryWinners->getAllWithTrashed();
+        $periods = $this->periods->getAll();
+        $currentPeriod = $this->periods->getCurrentPeriod($periods);
+
         return view('home', [
-                'users' => $this->users,
-                'entryWinners' => $this->entryWinners,
-                'periods' => $this->periods,
-                'currentPeriod' => $this->currentPeriod
+                'users' => $users,
+                'entryWinners' => $entryWinners,
+                'periods' => $periods,
+                'currentPeriod' => $currentPeriod
             ]);
     }
 }

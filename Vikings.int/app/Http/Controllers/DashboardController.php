@@ -9,9 +9,9 @@ use App\Repositories\EntryRepository;
 
 class DashboardController extends Controller
 {
-    protected $users;
-    protected $periods;
-    protected $entries;
+    private $users;
+    private $periods;
+    private $entries;
     /**
      * Create a new controller instance.
      *
@@ -19,10 +19,10 @@ class DashboardController extends Controller
      */
     public function __construct(UserRepository $users, PeriodRepository $periods, EntryRepository $entries)
     {
-        // $this->middleware('admin');
-        $this->users = $users->getAllWithTrashed();
-        $this->periods = $periods->getAllWithTrashed();
-        $this->entries = $entries->getAllWithTrashed();
+        $this->middleware('admin');
+        $this->users = $users;
+        $this->periods = $periods;
+        $this->entries = $entries;
     }
 
     /**
@@ -32,10 +32,14 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
+        $users = $this->users->getAllWithTrashed();
+        $periods = $this->periods->getAllWithTrashed();
+        $entries = $this->entries->getAllWithTrashed();
+
         return view('dashboard', [
-                'users' => $this->users,
-                'periods' => $this->periods,
-                'entries' => $this->entries
+                'users' => $users,
+                'periods' => $periods,
+                'entries' => $entries
             ]);
     }
 }

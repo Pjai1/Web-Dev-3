@@ -11,7 +11,7 @@
                 <div class="panel-body">
                     <h2>Welcome to the Mobile Vikings Contest Website!</h2>
                     <div>
-                    @if($currentPeriod)  
+                    @if($currentPeriod['original'])  
                     <h3>Our Winners for {{$currentPeriod->name}}</h3> 
                         @foreach ($entryWinners as $winner)
                             @if ($currentPeriod->id == $winner->period_id && $winner->isWinningEntry == 1)
@@ -23,6 +23,8 @@
                     </div>
                     <br />
                     <p>Since you are logged in you can <a href="{{ url('/contest') }}">opt-in</a> our contest!</p>
+                    @else
+                    <p>No Periods yet available</p>
                     @endif
                 </div>
             </div>

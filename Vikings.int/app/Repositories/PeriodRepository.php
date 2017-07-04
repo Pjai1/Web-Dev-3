@@ -12,7 +12,7 @@ class PeriodRepository {
 	}
 
 	public function getAll() {
-		return $this->period->get();
+		return $this->period->orderBy('startDate', 'asc')->get();
 	}
 
 	public function getAllWithTrashed() {
@@ -24,15 +24,18 @@ class PeriodRepository {
 	}
 
 	public function getCurrentPeriod($periods) {
-		$currentTime = date('Y-m-d H:i:s');
-		$period = new Period;
+		if($periods) {
+			$currentTime = date('Y-m-d H:i:s');
+			$period = new Period;
 
-		foreach($periods as $p) {
-			if($p->startDate < $currentTime && $p->endDate > $currentTime) {
-				$period = $p;
+			foreach($periods as $p) {
+				if($p->startDate < $currentTime && $p->endDate > $currentTime) {
+					$period = $p;
+				}
 			}
-		}
 
-		return $period;
+			return $period;
+		}
+		return;
 	}
 }
